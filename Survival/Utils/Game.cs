@@ -1,9 +1,12 @@
-﻿namespace Survival.Utils
+﻿using InventoryClass;
+
+namespace Survival.Utils
 {
     class Game
     {
         private Dictionary<string, string> locations;
         private string currentLocation;
+        Inventory inventory = new();
 
         public Game()
         {
@@ -15,7 +18,7 @@
             };
 
             currentLocation = "пляж";
-            inventory = new List<string>();
+
         }
         public void Start()
         {
@@ -48,13 +51,11 @@
                 }
                 else if (command == "собрать кокосы" && currentLocation == "пляж")
                 {
-                    inventory.Add("кокос");
-                    Console.WriteLine("Вы собрали кокосы!");
+                    inventory.AddItem("кокос", 1);
                 }
                 else if (command == "собрать древесину" && currentLocation == "лес")
                 {
-                    inventory.Add("древесина");
-                    Console.WriteLine("Вы собрали древесину!");
+                    inventory.AddItem("древесина", 1);
                 }
                 else if (command == "осмотреться")
                 {
