@@ -59,23 +59,18 @@ namespace Survival.Utils
                     {
                         case "1":
                             craft.MakeStoneKnife();
-                            Console.ReadLine();
                             break;
                         case "2":
                             craft.MakeKnife();
-                            Console.ReadLine();
                             break;
                         case "3":
                             craft.MakeAxe();
-                            Console.ReadLine();
                             break;
                         case "4":
                             craft.MakeCloth();
-                            Console.ReadLine();
                             break;
                         case "5":
                             craft.MakeTank();
-                            Console.ReadLine();
                             break;
                         case "6":
                             craft.MakeGondola();
@@ -136,19 +131,19 @@ namespace Survival.Utils
                 var key = Console.ReadKey(true).Key;
                 if (key == ConsoleKey.LeftArrow)
                 {
-                    player.MoveLeft();
+                    player.MoveLeft(trees);
                 }
                 if (key == ConsoleKey.RightArrow)
                 {
-                    player.MoveRight();
+                    player.MoveRight(trees);
                 }
                 if (key == ConsoleKey.UpArrow)
                 {
-                    player.MoveUp();
+                    player.MoveUp(trees);
                 }
                 if (key == ConsoleKey.DownArrow)
                 {
-                    player.MoveDown();
+                    player.MoveDown(trees);
                 }
                 if (key == ConsoleKey.I)
                 {

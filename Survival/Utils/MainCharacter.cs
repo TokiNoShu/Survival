@@ -1,6 +1,7 @@
 ﻿using CraftClass;
 using InventoryClass;
 using Survival.Utils;
+using TreesClass;
 
 namespace MainCharacterClass
 {
@@ -17,40 +18,44 @@ namespace MainCharacterClass
             PositionY = 5;
         }
 
-        public void MoveLeft()
+        public void MoveLeft(List<Trees> trees)
         {
-            PositionX--;
-            if (PositionX < 0)
+            int newX = PositionX - 1;
+            if (newX >= 0 && !IsCollision(newX, PositionY, trees))
             {
-                PositionX = 0;
+                PositionX = newX;
             }
         }
 
-        public void MoveRight()
+        public void MoveRight(List<Trees> trees)
         {
-            PositionX++;
-            if (PositionX > 19)
+            int newX = PositionX + 1;
+            if (newX < 20 && !IsCollision(newX, PositionY, trees))
             {
-                PositionX = 19;
+                PositionX = newX;
             }
         }
 
-        public void MoveUp()
+        public void MoveUp(List<Trees> trees)
         {
-            PositionY--;
-            if (PositionY < 0)
+            int newY = PositionY - 1;
+            if (newY >= 0 && !IsCollision(PositionX, newY, trees))
             {
-                PositionY = 0;
+                PositionY = newY;
             }
         }
 
-        public void MoveDown()
+        public void MoveDown(List<Trees> trees)
         {
-            PositionY++;
-            if (PositionY > 19)
+            int newY = PositionY + 1;
+            if (newY < 20 && !IsCollision(PositionX, newY, trees))
             {
-                PositionY = 19;
+                PositionY = newY;
             }
+        }
+        private bool IsCollision(int x, int y, List<Trees> trees)
+        {
+            return trees.Any(tree => tree.PositionX == x && tree.PositionY == y);
         }
     }
 }
