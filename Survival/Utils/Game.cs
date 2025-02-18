@@ -41,18 +41,51 @@ namespace Survival.Utils
             InitialiseTrees();
             while (true)
             {
-                
+
                 Console.Clear();
 
                 if (!inventoryOpen)
                 {
-                    player.HandleInput();
+                    HandleInput();
                     DrawGameField();
                 }
                 else
                 {
                     inventory.ShowInventory();
+                    Console.WriteLine();
+                    Console.WriteLine("КРАФТЫ:\n1.Сделать лезвие ножа\n2.Сделать нож\n3.Сделать топор\n4.Сделать ткань\n5.Сделать баллон\n6.Сделать гондолу");
+                    string sw = Console.ReadLine();
+                    switch (sw)
+                    {
+                        case "1":
+                            craft.MakeStoneKnife();
+                            Console.ReadLine();
+                            break;
+                        case "2":
+                            craft.MakeKnife();
+                            Console.ReadLine();
+                            break;
+                        case "3":
+                            craft.MakeAxe();
+                            Console.ReadLine();
+                            break;
+                        case "4":
+                            craft.MakeCloth();
+                            Console.ReadLine();
+                            break;
+                        case "5":
+                            craft.MakeTank();
+                            Console.ReadLine();
+                            break;
+                        case "6":
+                            craft.MakeGondola();
+                            break;
+                        case "i":
+                            inventoryOpen = false;
+                            break;
+                    }
                 }
+                Thread.Sleep(100);
             }
         }
         private void DrawGameField()
@@ -95,6 +128,34 @@ namespace Survival.Utils
             trees.Add(new Trees(11, 18));
             trees.Add(new Trees(1, 6));
             trees.Add(new Trees(12, 18));
+        }
+        public void HandleInput()
+        {
+            if (Console.KeyAvailable)
+            {
+                var key = Console.ReadKey(true).Key;
+                if (key == ConsoleKey.LeftArrow)
+                {
+                    player.MoveLeft();
+                }
+                if (key == ConsoleKey.RightArrow)
+                {
+                    player.MoveRight();
+                }
+                if (key == ConsoleKey.UpArrow)
+                {
+                    player.MoveUp();
+                }
+                if (key == ConsoleKey.DownArrow)
+                {
+                    player.MoveDown();
+                }
+                if (key == ConsoleKey.I)
+                {
+                    inventory.ShowInventory();
+                    inventoryOpen = true;
+                }
+            }
         }
     }
 }

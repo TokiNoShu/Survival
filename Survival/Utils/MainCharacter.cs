@@ -1,13 +1,11 @@
-﻿
-
-using CraftClass;
+﻿using CraftClass;
 using InventoryClass;
+using Survival.Utils;
 
 namespace MainCharacterClass
 {
     class MainCharacter
     {
-
         Inventory inventory = new();
         Craft craft = new();
         public int PositionX { get; set; }
@@ -52,33 +50,6 @@ namespace MainCharacterClass
             if (PositionY > 19)
             {
                 PositionY = 19;
-            }
-        }
-        public void HandleInput()
-        {
-            if (Console.KeyAvailable)
-            {
-                var key = Console.ReadKey(true).Key;
-                if (key == ConsoleKey.LeftArrow)
-                {
-                    MoveLeft();
-                }
-                if (key == ConsoleKey.RightArrow)
-                {
-                    MoveRight();
-                }
-                if (key == ConsoleKey.UpArrow)
-                {
-                    MoveUp();
-                }
-                if (key == ConsoleKey.DownArrow)
-                {
-                    MoveDown();
-                }
-                if (key == ConsoleKey.I)
-                {
-                    inventory.ShowInventory();
-                }
             }
         }
     }
