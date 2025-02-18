@@ -7,7 +7,7 @@ namespace Survival.Utils
     {
         private Dictionary<string, string> locations;
         private string currentLocation;
-        private List<string> inventory;
+        Inventory inventory = new();
 
         public Game()
         {
@@ -20,7 +20,7 @@ namespace Survival.Utils
             };
 
             currentLocation = "пляж";
-            inventory = new List<string>();
+
         }
 
         public void Start()
