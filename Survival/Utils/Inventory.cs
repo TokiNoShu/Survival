@@ -1,4 +1,5 @@
-﻿using CraftClass;
+﻿using System;
+using System.Collections.Generic;
 
 namespace InventoryClass
 {
@@ -18,12 +19,12 @@ namespace InventoryClass
             }
             Console.WriteLine($"{quantity} {itemName} добавлено(а) в инвентарь.");
         }
-        
+
         public void RemoveItem(string itemName, int quantity)
         {
             if (items.ContainsKey(itemName))
             {
-                if (CheckItem(itemName, quantity))
+                if (items[itemName] >= quantity)
                 {
                     items[itemName] -= quantity;
                     if (items[itemName] == 0)
@@ -49,20 +50,16 @@ namespace InventoryClass
                 Console.WriteLine("Инвентарь пуст.");
                 return;
             }
-            else
+            Console.WriteLine("Инвентарь:");
+            foreach (KeyValuePair<string, int> item in items)
             {
-                Console.WriteLine("Инвентарь:");
-                foreach (KeyValuePair<string, int> item in items)
-                {
-                    Console.WriteLine($"- {item.Key}: {item.Value}");
-                }
-
+                Console.WriteLine($"- {item.Key}: {item.Value}");
             }
-
         }
-        public bool CheckItem(string itemName, int quanity)
+
+        public bool CheckItem(string itemName, int quantity)
         {
-            return items[itemName] >= quanity;
+            return items.ContainsKey(itemName) && items[itemName] >= quantity;
         }
     }
 }
