@@ -4,7 +4,6 @@
     {
         private Dictionary<string, string> locations;
         private string currentLocation;
-        private List<string> inventory;
 
         public Game()
         {
