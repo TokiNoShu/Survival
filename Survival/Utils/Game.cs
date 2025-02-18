@@ -7,7 +7,7 @@ namespace Survival.Utils
     {
         private Dictionary<string, string> locations;
         private string currentLocation;
-        Inventory inventory = new();
+        private List<string> inventory;
 
         public Game()
         {
@@ -20,13 +20,13 @@ namespace Survival.Utils
             };
 
             currentLocation = "пляж";
-
+            inventory = new List<string>();
         }
 
         public void Start()
         {
             Console.WriteLine("Добро пожаловать в 'Выживание на острове'!");
-            Console.WriteLine("После 80-ти дневного путешествия вокруг света на воздушном шаре");
+            Console.WriteLine("После 80-ти дневного путишествия вокруг света на воздушном шаре");
             Console.WriteLine("вы попадаете в ураган. Вы очнулись на пляже, вокруг скачут макаки,");
             Console.WriteLine("а в носу стойкий запах морского бриза. Нужно выжить. ");
             Console.WriteLine("Перед вами пляж, лес, пещера и место крушения.");
@@ -52,7 +52,7 @@ namespace Survival.Utils
                 {
                     currentLocation = "пещера";
                 }
-                else if (command == "идти на пляж")
+                else if (command == "вернуться на пляж")
                 {
                     currentLocation = "пляж";
                 }
@@ -157,7 +157,7 @@ namespace Survival.Utils
                     if (inventory.Contains("баллон") && inventory.Contains("гондола"))
                     {
                         Console.WriteLine("Вы починили воздушный шар и улетели с острова!");
-                        Console.WriteLine("Но ваше путешествие ещё не закончилось, кто знает, куда вас занесёт в следующий раз?");
+                        Console.WriteLine("Но ваше путишествие ещё не закончилось, кто знает, куда вас занесёт в следующий раз?");
                         Console.WriteLine("Поздравляем, вы выиграли!");
                         break;
                     }
@@ -165,6 +165,10 @@ namespace Survival.Utils
                     {
                         Console.WriteLine("У вас нет необходимых материалов для починки воздушного шара.");
                     }
+                }
+                else if (command == "осмотреться")
+                {
+                    Console.WriteLine("Вы осмотрелись и ничего не нашли.");
                 }
                 else if (command == "подсказка")
                 {
