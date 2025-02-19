@@ -1,5 +1,4 @@
 ﻿using AnimalsClass;
-using CraftClass;
 using InventoryClass;
 using MainCharacterClass;
 using System;
@@ -14,21 +13,18 @@ namespace Survival.Utils
         private Dictionary<string, string> locations;
         private string currentLocation;
         private Inventory inventory = new();
-        private Craft craft = new();
         private MainCharacter player = new();
         private List<Trees> trees;
         private List<Animal> animals;
         private bool inventoryOpen = false;
 
 
-        private string[,] locationMap = new string[3, 2]
-        {
-            { "пещера", "пусто" },
-            { "пляж", "место крушения" },
-            { "лес", "пусто" }
+        private string[,] locationMap = {
+            {"пляж", "лес"},
+            {"пещера", "место крушения"}
         };
 
-        private int mapX = 1; 
+        private int mapX = 0; 
         private int mapY = 0;
 
         public Game()
@@ -79,22 +75,22 @@ namespace Survival.Utils
                     switch (sw)
                     {
                         case "1":
-                            craft.MakeStoneKnife();
+                            inventory.MakeStoneKnife();
                             break;
                         case "2":
-                            craft.MakeKnife();
+                            inventory.MakeKnife();
                             break;
                         case "3":
-                            craft.MakeAxe();
+                            inventory.MakeAxe();
                             break;
                         case "4":
-                            craft.MakeCloth();
+                            inventory.MakeCloth();
                             break;
                         case "5":
-                            craft.MakeTank();
+                            inventory.MakeTank();
                             break;
                         case "6":
-                            craft.MakeGondola();
+                            inventory.MakeGondola();
                             break;
                         case "i":
                             inventoryOpen = false;
@@ -120,7 +116,10 @@ namespace Survival.Utils
                     }
                     else if (trees.Any(e => e.PositionX == x && e.PositionY == y))
                     {
-                        Console.Write("T");
+                        if (currentLocation == locationMap[0, 1])
+                            Console.Write("T");
+                        else if (currentLocation == locationMap[0, 0])
+                            Console.Write("Y");
                     }
                     else if (animals.Any(a => a.PositionX == x && a.PositionY == y))
                     {
@@ -142,14 +141,14 @@ namespace Survival.Utils
         {
             Console.SetCursorPosition(25, 0);
             Console.WriteLine("Карта локаций:");
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 2; i++)
             {
                 for (int j = 0; j < 2; j++)
                 {
                     Console.SetCursorPosition(25 + j * 10, 2 + i * 2);
                     if (i == mapX && j == mapY)
                     {
-                        Console.Write($"[{locationMap[i, j]}]"); 
+                        Console.Write($"[{currentLocation}]");
                     }
                     else
                     {

@@ -1,9 +1,6 @@
-﻿using AnimalsClass; // Предполагается, что это пространство имен существует
-using InventoryClass; // Предполагается, что это пространство имен существует
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using TreesClass; // Предполагается, что это пространство имен существует
+﻿using AnimalsClass;
+using InventoryClass;
+using TreesClass;
 
 namespace MainCharacterClass
 {
@@ -13,7 +10,7 @@ namespace MainCharacterClass
         public int PositionY { get; set; }
         public int Hunger { get; set; } = 100;
         private int hungerCounter = 0;
-        private const int WORLD_SIZE = 20; // Размер мира - константа
+        private const int WORLD_SIZE = 20;
 
         public MainCharacter()
         {
@@ -21,40 +18,39 @@ namespace MainCharacterClass
             PositionY = 5;
         }
 
-        // Улучшенные методы передвижения с использованием оператора модуля для обхода границ
         public void MoveLeft(List<Trees> trees)
         {
-            PositionX = (PositionX - 1 + WORLD_SIZE) % WORLD_SIZE; // Циклический переход
+            PositionX = (PositionX - 1 + WORLD_SIZE) % WORLD_SIZE;
             if (IsCollision(PositionX, PositionY, trees))
             {
-                PositionX = (PositionX + 1) % WORLD_SIZE; // Возвращение на прежнюю позицию при столкновении
+                PositionX = (PositionX + 1) % WORLD_SIZE;
             }
         }
 
         public void MoveRight(List<Trees> trees)
         {
-            PositionX = (PositionX + 1) % WORLD_SIZE; // Циклический переход
+            PositionX = (PositionX + 1) % WORLD_SIZE;
             if (IsCollision(PositionX, PositionY, trees))
             {
-                PositionX = (PositionX - 1 + WORLD_SIZE) % WORLD_SIZE; // Возвращение на прежнюю позицию при столкновении
+                PositionX = (PositionX - 1 + WORLD_SIZE) % WORLD_SIZE;
             }
         }
 
         public void MoveUp(List<Trees> trees)
         {
-            PositionY = (PositionY - 1 + WORLD_SIZE) % WORLD_SIZE; // Циклический переход
+            PositionY = (PositionY - 1 + WORLD_SIZE) % WORLD_SIZE;
             if (IsCollision(PositionX, PositionY, trees))
             {
-                PositionY = (PositionY + 1) % WORLD_SIZE; // Возвращение на прежнюю позицию при столкновении
+                PositionY = (PositionY + 1) % WORLD_SIZE;
             }
         }
 
         public void MoveDown(List<Trees> trees)
         {
-            PositionY = (PositionY + 1) % WORLD_SIZE; // Циклический переход
+            PositionY = (PositionY + 1) % WORLD_SIZE;
             if (IsCollision(PositionX, PositionY, trees))
             {
-                PositionY = (PositionY - 1 + WORLD_SIZE) % WORLD_SIZE; // Возвращение на прежнюю позицию при столкновении
+                PositionY = (PositionY - 1 + WORLD_SIZE) % WORLD_SIZE;
             }
         }
 
@@ -103,7 +99,10 @@ namespace MainCharacterClass
         {
             if (inventory.CheckItem("топор", 1))
             {
-                Trees treeToRemove = trees.FirstOrDefault(tree => tree.PositionX == PositionX && tree.PositionY == PositionY);
+                Trees treeToRemove = trees.FirstOrDefault(tree =>
+                    (tree.PositionX == PositionX + 1 || tree.PositionX == PositionX - 1 || tree.PositionX == PositionX) &&
+                    (tree.PositionY == PositionY + 1 || tree.PositionY == PositionY - 1 || tree.PositionY == PositionY));
+
                 if (treeToRemove != null)
                 {
                     trees.Remove(treeToRemove);
