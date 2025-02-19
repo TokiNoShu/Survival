@@ -202,92 +202,69 @@ namespace Survival.Utils
                 var key = Console.ReadKey(true).Key;
                 switch (key)
                 {
-                    case ConsoleKey.LeftArrow:
-                        player.MoveLeft(trees);
-                        if (player.PositionX < 0)
-                        {
-                            if (mapY > 0 && locationMap[mapX, mapY - 1] != "пусто")
-                            {
-                                player.PositionX = 19; 
-                                ChangeLocation(mapX, mapY - 1); 
-                            }
-                            else
-                            {
-                                player.PositionX = 19; 
-                                Console.WriteLine("Вы не можете туда пойти.");
-                            }
-                        }
-                        break;
-                    case ConsoleKey.RightArrow:
-                        player.MoveRight(trees); 
-                        if (player.PositionX >= 20)
-                        {
-                            if (mapY < 1 && locationMap[mapX, mapY + 1] != "пусто")
-                            {
-                                player.PositionX = 0; 
-                                ChangeLocation(mapX, mapY + 1); 
-                            }
-                            else
-                            {
-                                player.PositionX = 0;
-                                Console.WriteLine("Вы не можете туда пойти.");
-                            }
-                        }
-                        break;
-                    case ConsoleKey.UpArrow:
-                        player.MoveUp(trees); 
-                        if (player.PositionY < 0)
-                        {
-                            if (mapX > 0 && locationMap[mapX - 1, mapY] != "пусто")
-                            {
-                                player.PositionY = 19; 
-                                ChangeLocation(mapX - 1, mapY); 
-                            }
-                            else
-                            {
-                                player.PositionY = 19; 
-                                Console.WriteLine("Вы не можете туда пойти.");
-                            }
-                        }
-                        break;
-                    case ConsoleKey.DownArrow:
-                        player.MoveDown(trees); 
-                        if (player.PositionY >= 20)
-                        {
-                            if (mapX < 2 && locationMap[mapX + 1, mapY] != "пусто")
-                            {
-                                player.PositionY = 0; 
-                                ChangeLocation(mapX + 1, mapY); 
-                            }
-                            else
-                            {
-                                player.PositionY = 0; 
-                                Console.WriteLine("Вы не можете туда пойти.");
-                            }
-                        }
-                        break;
-                    case ConsoleKey.C:
-                        player.ChopTree(trees, inventory);
-                        break;
-                    case ConsoleKey.F:
-                        player.Fight(animals, inventory);
-                        break;
-                    case ConsoleKey.E:
-                        player.Eat(inventory);
-                        break;
-                    case ConsoleKey.I:
-                        inventoryOpen = true;
-                        break;
-                    case ConsoleKey.Spacebar:
-                        player.CollectResources(currentLocation, inventory);
-                        break;
+                    case ConsoleKey.LeftArrow: MovePlayer(-1, 0); break;
+                    case ConsoleKey.RightArrow: MovePlayer(1, 0); break;
+                    case ConsoleKey.UpArrow: MovePlayer(0, -1); break;
+                    case ConsoleKey.DownArrow: MovePlayer(0, 1); break;
+                    case ConsoleKey.C: player.ChopTree(trees, inventory); break;
+                    case ConsoleKey.F: player.Fight(animals, inventory); break;
+                    case ConsoleKey.E: player.Eat(inventory); break;
+                    case ConsoleKey.I: inventoryOpen = true; break;
+                    case ConsoleKey.Spacebar: player.CollectResources(currentLocation, inventory); break;
                 }
             }
         }
+        private void MovePlayer(int dx, int dy)
+        {
+            int newX = player.PositionX + dx;
+            int newY = player.PositionY + dy;
 
+            // Проверка на выход за границы текущей локации
+            if (newX < 0 || newX >= 20 || newY < 0 || newY >= 20)
+            {
+                HandleLocationChange(dx, dy);
+                return; // Выход из функции, если произошло изменение локации
+            }
+
+
+            if (!player.IsCollision(newX, newY, trees))
+            {
+                player.PositionX = newX;
+                player.PositionY = newY;
+            }
+            else
+            {
+                Console.WriteLine("На пути препятствие!");
+            }
+        }
+        private void HandleLocationChange(int dx, int dy)
+        {
+            int newMapX = mapX + dx;
+            int newMapY = mapY + dy;
+
+            if (IsValidLocation(newMapX, newMapY))
+            {
+                // Определение новой позиции игрока на новой карте (нужно уточнить логику)
+                int newPlayerX = (dx > 0) ? 0 : 20 - 1;
+                int newPlayerY = (dy > 0) ? 0 : 20 - 1;
+
+                player.PositionX = newPlayerX;
+                player.PositionY = newPlayerY;
+                ChangeLocation(newMapX, newMapY);
+            }
+            else
+            {
+                Console.WriteLine("Вы не можете туда пойти.");
+
+                //Откат позиции игрока  (Важно!)
+                player.PositionX -= dx;
+                player.PositionY -= dy;
+
+            }
+        }
         private void ChangeLocation(int newX, int newY)
         {
-            if (newX >= 0 && newX < 3 && newY >= 0 && newY < 2 && locationMap[newX, newY] != "пусто")
+            if (IsValidLocation(newX, newY))
             {
                 mapX = newX;
                 mapY = newY;
@@ -297,12 +274,12 @@ namespace Survival.Utils
             else
             {
                 Console.WriteLine("Вы не можете туда пойти.");
-
-                if (player.PositionX < 0) player.PositionX = 0;
-                if (player.PositionX >= 20) player.PositionX = 19;
-                if (player.PositionY < 0) player.PositionY = 0;
-                if (player.PositionY >= 20) player.PositionY = 19;
             }
+        }
+        private bool IsValidLocation(int x, int y)
+        {
+            // Проверяем, находятся ли координаты в пределах карты
+            return x >= 0 && x < locationMap.GetLength(0) && y >= 0 && y < locationMap.GetLength(1);
         }
 
         private void CheckWinCondition()
